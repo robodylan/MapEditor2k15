@@ -24,12 +24,13 @@ namespace Map_Editor_2K15
 
         protected override void Initialize()
         {
+            graphics.IsFullScreen = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = true;
             map = new List<Block>();
             lastRightClick = new Vector2(-10,-10);
-
+            offset = new Vector2(0, 0);
             base.Initialize();
             for(int i = 0; i < 64; i++)
             {
@@ -53,9 +54,15 @@ namespace Map_Editor_2K15
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if(Mouse.GetState().LeftButton == ButtonState.Pressed)
+            int scrollSpeed = 5;
+            if (Keyboard.GetState().IsKeyDown(Keys.W)) offset.Y += scrollSpeed;
+            if (Keyboard.GetState().IsKeyDown(Keys.S)) offset.Y -= scrollSpeed;
+            if (Keyboard.GetState().IsKeyDown(Keys.A)) offset.X += scrollSpeed;
+            if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
+
+            Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)(Mouse.GetState().Y - offset.Y) / 64);
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                Vector2 mouseClickPosition = new Vector2(Mouse.GetState().X / 64, Mouse.GetState().Y / 64);
                 bool canPlace = true;
                 foreach(Block block in map)
                 {
@@ -63,12 +70,13 @@ namespace Map_Editor_2K15
                 }
                 if (canPlace)
                 {
-                    map.Add(new Block(Mouse.GetState().Position.X / 64, Mouse.GetState().Position.Y / 64, currentID, true));
+                    map.Add(new Block((int)mouseClickPosition.X, (int)mouseClickPosition.Y, currentID, true));
                 }
             }
             if(Mouse.GetState().RightButton == ButtonState.Pressed)
             {
-                lastRightClick = new Vector2((int)(Mouse.GetState().Position.X / 64), (int)(Mouse.GetState().Position.Y / 64));
+                lastRightClick = mouseClickPosition;
+                Console.WriteLine(mouseClickPosition.ToString());
             }
 
             base.Update(gameTime);
