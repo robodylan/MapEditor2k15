@@ -1,0 +1,52 @@
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\obj\x86\Debug\Map Editor 2K15.csprojResolveAssemblyReference.cache
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\Map Editor 2K15.exe
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\Map Editor 2K15.pdb
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\MonoGame.Framework.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.XAudio2.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D11.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.DXGI.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct2D1.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.XInput.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.RawInput.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D9.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\MonoGame.Framework.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.MediaFoundation.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.XAudio2.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D11.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.DXGI.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct2D1.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.XInput.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.RawInput.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D9.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\obj\x86\Debug\Map Editor 2K15.exe
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\obj\x86\Debug\Map Editor 2K15.pdb
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\WindowsFormsApplication1\Map Editor 2K15\bin\Windows\Debug\Content\spritesheet.bmp
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\obj\x86\Debug\Map Editor 2K15.exe
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\obj\x86\Debug\Map Editor 2K15.pdb
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\Content\spritesheet.bmp
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\Map Editor 2K15.exe
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\Map Editor 2K15.pdb
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\MonoGame.Framework.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.XAudio2.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D11.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.DXGI.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct2D1.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.XInput.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.RawInput.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D9.dll
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\MonoGame.Framework.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.MediaFoundation.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.XAudio2.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D11.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.DXGI.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct2D1.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.XInput.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.RawInput.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\bin\Windows\Debug\SharpDX.Direct3D9.xml
+C:\Users\Dylan\Documents\GitHub\MapEditor2k15\Map Editor 2K15\obj\x86\Debug\Map Editor 2K15.csprojResolveAssemblyReference.cache
