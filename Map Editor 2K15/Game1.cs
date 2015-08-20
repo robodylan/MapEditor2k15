@@ -24,13 +24,15 @@ namespace Map_Editor_2K15
 
         protected override void Initialize()
         {
-            graphics.IsFullScreen = false;
-            graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.PreferredBackBufferHeight = ((756 / 64) * 64);
+            graphics.PreferredBackBufferWidth = ((1024 / 64) * 64);
+            graphics.PreferredBackBufferFormat = SurfaceFormat.Color;
+            graphics.ApplyChanges();
             IsFixedTimeStep = false;
             IsMouseVisible = true;
             map = new List<Block>();
             lastRightClick = new Vector2(-10,-10);
-            offset = new Vector2(0, 0);
+            offset = new Vector2(0, (756 / 64) * 64);
             base.Initialize();
             for(int i = 0; i < 64; i++)
             {
@@ -54,13 +56,21 @@ namespace Map_Editor_2K15
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            int scrollSpeed = 5;
+            float scrollSpeed = 5f;
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) scrollSpeed = 10;
             if (Keyboard.GetState().IsKeyDown(Keys.W)) offset.Y += scrollSpeed;
-            if (Keyboard.GetState().IsKeyDown(Keys.S)) offset.Y -= scrollSpeed;
-            if (Keyboard.GetState().IsKeyDown(Keys.A)) offset.X += scrollSpeed;
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && offset.Y > 0 + ((756 / 64) * 64)) offset.Y -= scrollSpeed;
+            if (Keyboard.GetState().IsKeyDown(Keys.A) && offset.X < 0) offset.X += scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
 
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)(Mouse.GetState().Y - offset.Y) / 64);
+
+            Console.WriteLine(offset.ToString());
+            if (mouseClickPosition.Y <= 0)
+            {
+                mouseClickPosition.Y -= 1;
+            }
+
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 bool canPlace = true;
@@ -76,7 +86,6 @@ namespace Map_Editor_2K15
             if(Mouse.GetState().RightButton == ButtonState.Pressed)
             {
                 lastRightClick = mouseClickPosition;
-                Console.WriteLine(mouseClickPosition.ToString());
             }
 
             base.Update(gameTime);
