@@ -11,6 +11,8 @@ namespace Map_Editor_2K15
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D mapTexture;
+        Texture2D originTexture;
+        Texture2D cursorTexture;
         int currentID;
         List<Block> map;
         Vector2 lastRightClick;
@@ -29,7 +31,7 @@ namespace Map_Editor_2K15
             graphics.PreferredBackBufferFormat = SurfaceFormat.Color;
             graphics.ApplyChanges();
             IsFixedTimeStep = false;
-            IsMouseVisible = true;
+            IsMouseVisible = false;
             map = new List<Block>();
             lastRightClick = new Vector2(-10,-10);
             offset = new Vector2(0, (756 / 64) * 64);
@@ -43,7 +45,9 @@ namespace Map_Editor_2K15
 
         protected override void LoadContent()
         {
+            cursorTexture = Content.Load<Texture2D>("cursor.bmp");
             mapTexture = Content.Load<Texture2D>("spritesheet.bmp");
+            originTexture = Content.Load<Texture2D>("origin.bmp");
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
@@ -63,13 +67,9 @@ namespace Map_Editor_2K15
             if (Keyboard.GetState().IsKeyDown(Keys.A) && offset.X < 0) offset.X += scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
 
-            Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)(Mouse.GetState().Y - offset.Y) / 64);
+            Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, ((int)(Mouse.GetState().Y - offset.Y) / 64) - 1);
 
             Console.WriteLine(offset.ToString());
-            if (mouseClickPosition.Y <= 0)
-            {
-                mouseClickPosition.Y -= 1;
-            }
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
@@ -104,6 +104,9 @@ namespace Map_Editor_2K15
                 }
                 spriteBatch.Draw(mapTexture, new Vector2((int)block.getPosition().X * 64, (int)block.getPosition().Y * 64), new Rectangle((block.getID() % 8) * 16, block.getID() / 8 * 16,16,16), Color.White, 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             }
+            Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)((Mouse.GetState().Y - offset.Y) / 64) - 1);
+            spriteBatch.Draw(originTexture, new Vector2(0,-64), null, new Color(255, 255, 255, 128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
+            spriteBatch.Draw(cursorTexture, new Vector2(mouseClickPosition.X * 64, mouseClickPosition.Y * 64), null, new Color(255,255,255,128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             map.Remove(blockToRemove);
             lastRightClick = new Vector2(-10,-10);
             spriteBatch.End();
