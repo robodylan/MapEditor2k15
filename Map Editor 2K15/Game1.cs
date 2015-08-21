@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,7 +47,7 @@ namespace Map_Editor_2K15
         protected override void LoadContent()
         {
             cursorTexture = Content.Load<Texture2D>("cursor");
-            mapTexture = Content.Load<Texture2D>("spritesheet");
+            mapTexture = Content.Load<Texture2D>("zelda-tiles");
             originTexture = Content.Load<Texture2D>("origin");
             overlayTexture = Content.Load<Texture2D>("overlay");
             font = Content.Load<SpriteFont>("font");
@@ -68,10 +69,8 @@ namespace Map_Editor_2K15
             if (Keyboard.GetState().IsKeyDown(Keys.S) && offset.Y > 0 + ((756 / 64) * 64)) offset.Y -= scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.A) && offset.X < 0) offset.X += scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
-
+            if (Keyboard.GetState().IsKeyDown(Keys.Space)) Save("test.map");
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, ((int)(Mouse.GetState().Y - offset.Y) / 64) - 1);
-
-            Console.WriteLine(offset.ToString());
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
@@ -105,11 +104,10 @@ namespace Map_Editor_2K15
             {
                 currentID = 63;
             }
-            if(currentID > 63)
+            if(currentID > (mapTexture.Width * mapTexture.Height) / 64)
             {
                 currentID = 0;
             }
-            Console.WriteLine(currentID);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -123,14 +121,14 @@ namespace Map_Editor_2K15
                 {
                     blockToRemove = block;
                 }
-                spriteBatch.Draw(mapTexture, new Vector2((int)block.getPosition().X * 64, (int)block.getPosition().Y * 64), new Rectangle((block.getID() % 8) * 16, block.getID() / 8 * 16,16,16), Color.White, 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
+                spriteBatch.Draw(mapTexture, new Vector2((int)block.getPosition().X * 64, (int)block.getPosition().Y * 64), new Rectangle((block.getID() % (mapTexture.Width / 16)) * 16, block.getID() / (mapTexture.Height / 16) * 16,16,16), Color.White, 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             }
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)((Mouse.GetState().Y - offset.Y) / 64) - 1);
-            spriteBatch.Draw(originTexture, new Vector2(0,-64), null, new Color(255, 255, 255, 128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
+            spriteBatch.Draw(originTexture, new Vector2(0,0), null, new Color(255, 255, 255, 128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             spriteBatch.Draw(cursorTexture, new Vector2(mouseClickPosition.X * 64, mouseClickPosition.Y * 64), null, new Color(255,255,255,128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             spriteBatch.Draw(overlayTexture, new Vector2(0 - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Current Tile: ", new Vector2(325 - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
-            spriteBatch.Draw(mapTexture, new Vector2(420 - offset.X, 10 - offset.Y), new Rectangle((currentID % 8) * 16, currentID / 8 * 16, 16, 16), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
+            spriteBatch.Draw(mapTexture, new Vector2(420 - offset.X, 10 - offset.Y), new Rectangle((currentID % (mapTexture.Height / 16)) * 16, currentID / (mapTexture.Height / 16) * 16, 16, 16), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
             map.Remove(blockToRemove);
             lastRightClick = new Vector2(-10,-10);
             spriteBatch.End();
@@ -139,7 +137,14 @@ namespace Map_Editor_2K15
 
         public void Save(string filename)
         {
-
+            string[] mapExportData = new string[map.Count + 1];
+            int i = 0;
+            foreach(Block b in map)
+            {
+                i++;
+                mapExportData[i - 1] = b.getPosition().X + "," + b.getPosition().Y + "," + b.getID();
+            }
+            File.WriteAllLines(filename, mapExportData);
         }
     }
 }
