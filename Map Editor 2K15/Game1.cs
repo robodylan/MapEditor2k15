@@ -25,6 +25,8 @@ namespace Map_Editor_2K15
         int tileScale = 5;
         bool toggleDown = false;
         bool tabDown = false;
+        bool scaleDownMinus = false;
+        bool scaleDownPlus = false;
         bool showControls = true;
 
         string spriteSheetName;
@@ -90,8 +92,8 @@ namespace Map_Editor_2K15
             if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.E)) Save("test.map");
             if (Keyboard.GetState().IsKeyDown(Keys.H) && !toggleDown) showControls = !showControls; toggleDown = true;
-            if (Keyboard.GetState().IsKeyDown(Keys.OemMinus) && tileScale > 1) tileScale--;
-            if (Keyboard.GetState().IsKeyDown(Keys.OemPlus) && tileScale < 16) tileScale++;
+            if (Keyboard.GetState().IsKeyDown(Keys.OemPlus) && tileScale < 16 && !scaleDownPlus) tileScale++; scaleDownPlus = true;
+            if (Keyboard.GetState().IsKeyDown(Keys.OemMinus) && tileScale > 1 && !scaleDownMinus) tileScale--; scaleDownMinus = true;
             if (Keyboard.GetState().IsKeyDown(Keys.Tab) && !tabDown)
             {
                 tabDown = true;
@@ -129,6 +131,8 @@ namespace Map_Editor_2K15
 
             if (Keyboard.GetState().IsKeyUp(Keys.H)) toggleDown = false;
             if (Keyboard.GetState().IsKeyUp(Keys.Tab)) tabDown = false;
+            if (Keyboard.GetState().IsKeyUp(Keys.OemMinus)) scaleDownMinus = false;
+            if (Keyboard.GetState().IsKeyUp(Keys.OemPlus)) scaleDownPlus = false;
             base.Update(gameTime);
             int currentScrollValue = Mouse.GetState().ScrollWheelValue;
             if (lastScrollValue < currentScrollValue)
@@ -176,7 +180,7 @@ namespace Map_Editor_2K15
             spriteBatch.Draw(overlayTexture, new Vector2((GraphicsDevice.DisplayMode.Width * 0.11f) - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Current Tile: ", new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Block ID: " + currentID, new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 60 - offset.Y), new Color(255, 255, 255, 128));
-            if (showControls) spriteBatch.DrawString(font, "Controls\n\nE = Export map\nI = Import Map\nO = Open spritesheet\nN = New map\nW = Pan Up\nA = Pan Left\nS = Pan Down\nD = Pan Right\nH = Hide Controls", new Vector2(15 - offset.X, (GraphicsDevice.DisplayMode.Height / 4) - offset.Y), new Color(255, 255, 255, 128));
+            if (showControls) spriteBatch.DrawString(font, "Controls\n\nE = Export map\nI = Import Map\nO = Open spritesheet\nN = New map\nW = Pan Up\nA = Pan Left\nS = Pan Down\nD = Pan Right\nH = Hide Controls\nTab = Change Tile Dimensions\n- = Increase Map Scale\n+ = Decrease Map Scale", new Vector2(15 - offset.X, (GraphicsDevice.DisplayMode.Height / 4) - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Tile Dimensions: " + tileSize + "x" + tileSize + "\nNumber Of Blocks: " + map.Count + "\nMap Scale: " + tileScale + "x", new Vector2(((GraphicsDevice.DisplayMode.Width * 0.75f) - 256) - offset.X, 15 - offset.Y), Color.Purple);
             spriteBatch.Draw(mapTexture, new Vector2((((GraphicsDevice.DisplayMode.Width * 0.11f)) + 420) - offset.X, 10 - offset.Y), new Rectangle((currentID % (mapTexture.Height / tileSize)) * tileSize, currentID / (mapTexture.Height / tileSize) * tileSize, tileSize, tileSize), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4 / (tileSize / 16), SpriteEffects.None, 1);
             map.Remove(blockToRemove);
