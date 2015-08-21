@@ -21,6 +21,7 @@ namespace Map_Editor_2K15
         Vector2 lastRightClick;
         Vector2 offset;
         SpriteFont font;
+        string spriteSheetName;
         System.Windows.Forms.SaveFileDialog saveFileDialog; 
         System.Windows.Forms.OpenFileDialog openFileDialog;
 
@@ -39,8 +40,7 @@ namespace Map_Editor_2K15
             saveFileDialog.FileName = "export.map";
             saveFileDialog.Filter = "Map |";
             openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            openFileDialog.Title = "Choose spritesheet file";
-            openFileDialog.ShowDialog();
+            openFileDialog.Title = "Choose spritesheet to open";
             graphics.PreferredBackBufferHeight = ((int)(GraphicsDevice.Adapter.CurrentDisplayMode.Height * 0.75f));
             graphics.PreferredBackBufferWidth = ((int)(GraphicsDevice.Adapter.CurrentDisplayMode.Width * 0.75f));
             Window.AllowAltF4 = true;
@@ -59,8 +59,7 @@ namespace Map_Editor_2K15
         protected override void LoadContent()
         {
             cursorTexture = Content.Load<Texture2D>("cursor");
-            string filename = openFileDialog.FileName;
-            mapTexture = Texture2D.FromStream(GraphicsDevice, new StreamReader(filename).BaseStream);
+            mapTexture = Content.Load<Texture2D>("spritesheet");
             originTexture = Content.Load<Texture2D>("origin");
             overlayTexture = Content.Load<Texture2D>("overlay");
             font = Content.Load<SpriteFont>("font");
@@ -77,13 +76,13 @@ namespace Map_Editor_2K15
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             float scrollSpeed = 5f;
+            if (Keyboard.GetState().IsKeyDown(Keys.I)) Import();
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) scrollSpeed = 10;
             if (Keyboard.GetState().IsKeyDown(Keys.W) && offset.Y < 0) offset.Y += scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.S)) offset.Y -= scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.A) && offset.X < 0) offset.X += scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
-            if (Keyboard.GetState().IsKeyDown(Keys.Space)) Save("test.map");
-            Console.WriteLine(offset.ToString());
+            if (Keyboard.GetState().IsKeyDown(Keys.E)) Save("test.map");
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, ((int)(Mouse.GetState().Y - offset.Y) / 64) - 1);
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -104,6 +103,14 @@ namespace Map_Editor_2K15
                
             }
 
+            if(Keyboard.GetState().IsKeyDown(Keys.O))
+            {
+                openFileDialog.ShowDialog();
+                string filepath = openFileDialog.FileName;
+                spriteSheetName = filepath;
+                mapTexture = Texture2D.FromStream(GraphicsDevice,new StreamReader(filepath).BaseStream);
+            }
+
             base.Update(gameTime);
             int currentScrollValue = Mouse.GetState().ScrollWheelValue;
             if (lastScrollValue < currentScrollValue)
@@ -119,7 +126,7 @@ namespace Map_Editor_2K15
             {
                 currentID = 63;
             }
-            if(currentID > (mapTexture.Width * mapTexture.Height) / 64)
+            if(currentID > (mapTexture.Width * mapTexture.Height) / 64 && mapTexture != null)
             {
                 currentID = 0;
             }
@@ -129,14 +136,17 @@ namespace Map_Editor_2K15
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateTranslation(offset.X,offset.Y,0));
-            Block blockToRemove = new Block(0,0,0,true);
+            Block blockToRemove = new Block(0, 0, 0, true);
             foreach(Block block in map)
             {
                 if (block.getPosition() == lastRightClick)
                 {
                     blockToRemove = block;
                 }
-                spriteBatch.Draw(mapTexture, new Vector2((int)block.getPosition().X * 64, (int)block.getPosition().Y * 64), new Rectangle((block.getID() % (mapTexture.Width / 16)) * 16, block.getID() / (mapTexture.Height / 16) * 16,16,16), Color.White, 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
+                if (mapTexture != null)
+                {
+                    spriteBatch.Draw(mapTexture, new Vector2((int)block.getPosition().X * 64, (int)block.getPosition().Y * 64), new Rectangle((block.getID() % (mapTexture.Width / 16)) * 16, block.getID() / (mapTexture.Height / 16) * 16, 16, 16), Color.White, 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
+                }
             }
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)((Mouse.GetState().Y - offset.Y) / 64) - 1);
             spriteBatch.Draw(originTexture, new Vector2(0,0), null, new Color(255, 255, 255, 128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
@@ -156,12 +166,40 @@ namespace Map_Editor_2K15
             saveFileDialog.ShowDialog();
             string[] mapExportData = new string[map.Count + 1];
             int i = 0;
+            mapExportData[0] = spriteSheetName;
             foreach(Block b in map)
             {
                 i++;
-                mapExportData[i - 1] = b.getPosition().X + "," + b.getPosition().Y + "," + b.getID();
+                mapExportData[i] = b.getPosition().X + "," + b.getPosition().Y + "," + b.getID();
             }
             File.WriteAllLines(saveFileDialog.FileName, mapExportData);
+        }
+
+        public void Import()
+        {
+            openFileDialog.Title = "Choose map to import";
+            openFileDialog.ShowDialog();
+            string[] importMapData = File.ReadAllLines(openFileDialog.FileName);
+            if (importMapData[0] != "")
+            {
+                mapTexture = Texture2D.FromStream(GraphicsDevice, new StreamReader(importMapData[0]).BaseStream);
+            }
+            map.Clear();
+            foreach (string blockData in importMapData)
+            {
+                try
+                {
+                    string[] properties = blockData.Split(',');
+                    int x = Convert.ToInt32(properties[0]);
+                    int y = Convert.ToInt32(properties[1]);
+                    int ID = Convert.ToInt32(properties[2]);
+                    map.Add(new Block(x,y,ID,true));
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }
