@@ -91,6 +91,25 @@ namespace Map_Editor_2K15
             }
 
             base.Update(gameTime);
+            int currentScrollValue = Mouse.GetState().ScrollWheelValue;
+            if (lastScrollValue < currentScrollValue)
+            {
+                currentID++;
+            }
+            if (lastScrollValue > currentScrollValue)
+            {
+                currentID--;
+            }
+            lastScrollValue = currentScrollValue;
+            if(currentID < 0)
+            {
+                currentID = 63;
+            }
+            if(currentID > 63)
+            {
+                currentID = 0;
+            }
+            Console.WriteLine(currentID);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -111,7 +130,7 @@ namespace Map_Editor_2K15
             spriteBatch.Draw(cursorTexture, new Vector2(mouseClickPosition.X * 64, mouseClickPosition.Y * 64), null, new Color(255,255,255,128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             spriteBatch.Draw(overlayTexture, new Vector2(0 - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Current Tile: ", new Vector2(325 - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
-            spriteBatch.Draw(mapTexture, new Vector2(420 - offset.X, 10 - offset.Y), new Rectangle((currentID % 8) * 16, currentID / 8 * 16, 16, 16), Color.White, 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
+            spriteBatch.Draw(mapTexture, new Vector2(420 - offset.X, 10 - offset.Y), new Rectangle((currentID % 8) * 16, currentID / 8 * 16, 16, 16), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
             map.Remove(blockToRemove);
             lastRightClick = new Vector2(-10,-10);
             spriteBatch.End();
