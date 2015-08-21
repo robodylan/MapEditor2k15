@@ -154,6 +154,7 @@ namespace Map_Editor_2K15
             spriteBatch.Draw(overlayTexture, new Vector2((GraphicsDevice.DisplayMode.Width * 0.11f) - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Current Tile: ", new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Block ID: " + currentID, new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 60 - offset.Y), new Color(255, 255, 255, 128));
+            spriteBatch.DrawString(font, "Controls\n\nE = Export map\nI = Import Map\nO = Open spritesheet\nN = New map", new Vector2(15 - offset.X, (GraphicsDevice.DisplayMode.Height / 4) - offset.Y), new Color(Color.BurlyWood.R, Color.BurlyWood.G, Color.BurlyWood.B, 128));
             spriteBatch.Draw(mapTexture, new Vector2((((GraphicsDevice.DisplayMode.Width * 0.11f)) + 420) - offset.X, 10 - offset.Y), new Rectangle((currentID % (mapTexture.Height / 16)) * 16, currentID / (mapTexture.Height / 16) * 16, 16, 16), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
             map.Remove(blockToRemove);
             lastRightClick = new Vector2(-10,-10);
