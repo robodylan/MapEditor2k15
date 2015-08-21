@@ -34,6 +34,8 @@ namespace Map_Editor_2K15
 
         protected override void Initialize()
         {
+            saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.Title = "Choose where to export map";
             openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Title = "Choose spritesheet file";
             openFileDialog.ShowDialog();
@@ -147,6 +149,7 @@ namespace Map_Editor_2K15
 
         public void Save(string filename)
         {
+            saveFileDialog.ShowDialog();
             string[] mapExportData = new string[map.Count + 1];
             int i = 0;
             foreach(Block b in map)
@@ -154,7 +157,7 @@ namespace Map_Editor_2K15
                 i++;
                 mapExportData[i - 1] = b.getPosition().X + "," + b.getPosition().Y + "," + b.getID();
             }
-            File.WriteAllLines(filename, mapExportData);
+            File.WriteAllLines(saveFileDialog.FileName, mapExportData);
         }
     }
 }
