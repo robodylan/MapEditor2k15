@@ -13,11 +13,14 @@ namespace Map_Editor_2K15
         Texture2D mapTexture;
         Texture2D originTexture;
         Texture2D cursorTexture;
+        Texture2D overlayTexture;
         int currentID;
         List<Block> map;
         Vector2 lastRightClick;
         Vector2 offset;
-        
+        SpriteFont font;
+        int lastScrollValue;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -36,18 +39,17 @@ namespace Map_Editor_2K15
             lastRightClick = new Vector2(-10,-10);
             offset = new Vector2(0, (756 / 64) * 64);
             base.Initialize();
-            for(int i = 0; i < 64; i++)
-            {
-                map.Add(new Block(i, 0, i, true));
-            }
+            lastScrollValue = 0;
         }
 
 
         protected override void LoadContent()
         {
-            cursorTexture = Content.Load<Texture2D>("cursor.bmp");
-            mapTexture = Content.Load<Texture2D>("spritesheet.bmp");
-            originTexture = Content.Load<Texture2D>("origin.bmp");
+            cursorTexture = Content.Load<Texture2D>("cursor");
+            mapTexture = Content.Load<Texture2D>("spritesheet");
+            originTexture = Content.Load<Texture2D>("origin");
+            overlayTexture = Content.Load<Texture2D>("overlay");
+            font = Content.Load<SpriteFont>("font");
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
@@ -107,6 +109,9 @@ namespace Map_Editor_2K15
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)((Mouse.GetState().Y - offset.Y) / 64) - 1);
             spriteBatch.Draw(originTexture, new Vector2(0,-64), null, new Color(255, 255, 255, 128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             spriteBatch.Draw(cursorTexture, new Vector2(mouseClickPosition.X * 64, mouseClickPosition.Y * 64), null, new Color(255,255,255,128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
+            spriteBatch.Draw(overlayTexture, new Vector2(0 - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
+            spriteBatch.DrawString(font, "Current Tile: ", new Vector2(325 - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
+            spriteBatch.Draw(mapTexture, new Vector2(420 - offset.X, 10 - offset.Y), new Rectangle((currentID % 8) * 16, currentID / 8 * 16, 16, 16), Color.White, 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
             map.Remove(blockToRemove);
             lastRightClick = new Vector2(-10,-10);
             spriteBatch.End();
