@@ -21,6 +21,9 @@ namespace Map_Editor_2K15
         Vector2 lastRightClick;
         Vector2 offset;
         SpriteFont font;
+        System.Windows.Forms.SaveFileDialog saveFileDialog; 
+        System.Windows.Forms.OpenFileDialog openFileDialog;
+
         int lastScrollValue;
 
         public Game1()
@@ -31,11 +34,13 @@ namespace Map_Editor_2K15
 
         protected override void Initialize()
         {
+            openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            openFileDialog.Title = "Choose spritesheet file";
+            openFileDialog.ShowDialog();
             graphics.PreferredBackBufferHeight = ((756 / 64) * 64);
             graphics.PreferredBackBufferWidth = ((1024 / 64) * 64);
             graphics.PreferredBackBufferFormat = SurfaceFormat.Color;
             graphics.ApplyChanges();
-            IsFixedTimeStep = false;
             IsMouseVisible = false;
             map = new List<Block>();
             lastRightClick = new Vector2(-10,-10);
@@ -48,7 +53,8 @@ namespace Map_Editor_2K15
         protected override void LoadContent()
         {
             cursorTexture = Content.Load<Texture2D>("cursor");
-            mapTexture = Content.Load<Texture2D>("spritesheet");
+            string filename = openFileDialog.FileName;
+            mapTexture = Texture2D.FromStream(GraphicsDevice, new StreamReader(filename).BaseStream);
             originTexture = Content.Load<Texture2D>("origin");
             overlayTexture = Content.Load<Texture2D>("overlay");
             font = Content.Load<SpriteFont>("font");
