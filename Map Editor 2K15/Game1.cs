@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Map_Editor_2K15
 {
@@ -38,7 +39,7 @@ namespace Map_Editor_2K15
             IsMouseVisible = false;
             map = new List<Block>();
             lastRightClick = new Vector2(-10,-10);
-            offset = new Vector2(0, (756 / 64) * 64);
+            offset = new Vector2(0, 0);
             base.Initialize();
             lastScrollValue = 0;
         }
@@ -47,7 +48,7 @@ namespace Map_Editor_2K15
         protected override void LoadContent()
         {
             cursorTexture = Content.Load<Texture2D>("cursor");
-            mapTexture = Content.Load<Texture2D>("zelda-tiles");
+            mapTexture = Content.Load<Texture2D>("spritesheet");
             originTexture = Content.Load<Texture2D>("origin");
             overlayTexture = Content.Load<Texture2D>("overlay");
             font = Content.Load<SpriteFont>("font");
@@ -65,11 +66,12 @@ namespace Map_Editor_2K15
                 Exit();
             float scrollSpeed = 5f;
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) scrollSpeed = 10;
-            if (Keyboard.GetState().IsKeyDown(Keys.W)) offset.Y += scrollSpeed;
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && offset.Y > 0 + ((756 / 64) * 64)) offset.Y -= scrollSpeed;
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && offset.Y < 0) offset.Y += scrollSpeed;
+            if (Keyboard.GetState().IsKeyDown(Keys.S)) offset.Y -= scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.A) && offset.X < 0) offset.X += scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.Space)) Save("test.map");
+            Console.WriteLine(offset.ToString());
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, ((int)(Mouse.GetState().Y - offset.Y) / 64) - 1);
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -87,6 +89,7 @@ namespace Map_Editor_2K15
             if(Mouse.GetState().RightButton == ButtonState.Pressed)
             {
                 lastRightClick = mouseClickPosition;
+               
             }
 
             base.Update(gameTime);
@@ -128,6 +131,7 @@ namespace Map_Editor_2K15
             spriteBatch.Draw(cursorTexture, new Vector2(mouseClickPosition.X * 64, mouseClickPosition.Y * 64), null, new Color(255,255,255,128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             spriteBatch.Draw(overlayTexture, new Vector2(0 - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Current Tile: ", new Vector2(325 - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
+            spriteBatch.DrawString(font, "Block ID: " + currentID, new Vector2(325 - offset.X, 60 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.Draw(mapTexture, new Vector2(420 - offset.X, 10 - offset.Y), new Rectangle((currentID % (mapTexture.Height / 16)) * 16, currentID / (mapTexture.Height / 16) * 16, 16, 16), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
             map.Remove(blockToRemove);
             lastRightClick = new Vector2(-10,-10);
