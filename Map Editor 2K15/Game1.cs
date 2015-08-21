@@ -21,8 +21,11 @@ namespace Map_Editor_2K15
         Vector2 lastRightClick;
         Vector2 offset;
         SpriteFont font;
-        int tileSize = 32;
+        int tileSize = 16;
         int tileScale = 4;
+        bool toggleDown = false;
+        bool tabDown = false;
+        bool showControls = true;
 
         string spriteSheetName;
         System.Windows.Forms.SaveFileDialog saveFileDialog; 
@@ -86,6 +89,7 @@ namespace Map_Editor_2K15
             if (Keyboard.GetState().IsKeyDown(Keys.A) && offset.X < 0) offset.X += scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.D)) offset.X -= scrollSpeed;
             if (Keyboard.GetState().IsKeyDown(Keys.E)) Save("test.map");
+            if (Keyboard.GetState().IsKeyDown(Keys.H) && !toggleDown) showControls = !showControls; toggleDown = true; 
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / (tileSize * tileScale), ((int)(Mouse.GetState().Y - offset.Y) / (tileScale * tileSize)) - 1);
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -114,6 +118,7 @@ namespace Map_Editor_2K15
                 mapTexture = Texture2D.FromStream(GraphicsDevice,new StreamReader(filepath).BaseStream);
             }
 
+            if (Keyboard.GetState().IsKeyUp(Keys.H)) toggleDown = false;
             base.Update(gameTime);
             int currentScrollValue = Mouse.GetState().ScrollWheelValue;
             if (lastScrollValue < currentScrollValue)
@@ -157,7 +162,7 @@ namespace Map_Editor_2K15
             spriteBatch.Draw(overlayTexture, new Vector2((GraphicsDevice.DisplayMode.Width * 0.11f) - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Current Tile: ", new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
             spriteBatch.DrawString(font, "Block ID: " + currentID, new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 60 - offset.Y), new Color(255, 255, 255, 128));
-            spriteBatch.DrawString(font, "Controls\n\nE = Export map\nI = Import Map\nO = Open spritesheet\nN = New map\nW = Pan Up\nA = Pan Left\nS = Pan Down\nD = Pan Right", new Vector2(15 - offset.X, (GraphicsDevice.DisplayMode.Height / 4) - offset.Y), new Color(Color.BurlyWood.R, Color.BurlyWood.G, Color.BurlyWood.B, 128));
+            if (showControls) spriteBatch.DrawString(font, "Controls\n\nE = Export map\nI = Import Map\nO = Open spritesheet\nN = New map\nW = Pan Up\nA = Pan Left\nS = Pan Down\nD = Pan Right\nH = Hide Controls", new Vector2(15 - offset.X, (GraphicsDevice.DisplayMode.Height / 4) - offset.Y), new Color(Color.BurlyWood.R, Color.BurlyWood.G, Color.BurlyWood.B, 128));
             //
             spriteBatch.Draw(mapTexture, new Vector2((((GraphicsDevice.DisplayMode.Width * 0.11f)) + 420) - offset.X, 10 - offset.Y), new Rectangle((currentID % (mapTexture.Height / tileSize)) * tileSize, currentID / (mapTexture.Height / tileSize) * tileSize, tileSize, tileSize), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), tileScale / (tileSize / 16), SpriteEffects.None, 1);
             map.Remove(blockToRemove);
