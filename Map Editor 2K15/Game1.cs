@@ -124,7 +124,7 @@ namespace Map_Editor_2K15
             lastScrollValue = currentScrollValue;
             if(currentID < 0)
             {
-                currentID = 63;
+                currentID = (mapTexture.Width * mapTexture.Height) / 64;
             }
             if(currentID > (mapTexture.Width * mapTexture.Height) / 64 && mapTexture != null)
             {
