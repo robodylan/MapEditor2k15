@@ -36,11 +36,15 @@ namespace Map_Editor_2K15
         {
             saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             saveFileDialog.Title = "Choose where to export map";
+            saveFileDialog.FileName = "export.map";
+            saveFileDialog.Filter = "Map |";
             openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Title = "Choose spritesheet file";
             openFileDialog.ShowDialog();
-            graphics.PreferredBackBufferHeight = ((756 / 64) * 64);
-            graphics.PreferredBackBufferWidth = ((1024 / 64) * 64);
+            graphics.PreferredBackBufferHeight = ((int)(GraphicsDevice.Adapter.CurrentDisplayMode.Height * 0.75f));
+            graphics.PreferredBackBufferWidth = ((int)(GraphicsDevice.Adapter.CurrentDisplayMode.Width * 0.75f));
+            Window.AllowAltF4 = true;
+            Window.Position = new Point(0,0);
             graphics.PreferredBackBufferFormat = SurfaceFormat.Color;
             graphics.ApplyChanges();
             IsMouseVisible = false;
@@ -89,7 +93,7 @@ namespace Map_Editor_2K15
                 {
                     if (block.getPosition() == mouseClickPosition) canPlace = false;
                 }
-                if (canPlace)
+                if (canPlace && mouseClickPosition.X >= 0 && mouseClickPosition.Y >= 0)
                 {
                     map.Add(new Block((int)mouseClickPosition.X, (int)mouseClickPosition.Y, currentID, true));
                 }
@@ -137,10 +141,10 @@ namespace Map_Editor_2K15
             Vector2 mouseClickPosition = new Vector2((int)(Mouse.GetState().X - offset.X) / 64, (int)((Mouse.GetState().Y - offset.Y) / 64) - 1);
             spriteBatch.Draw(originTexture, new Vector2(0,0), null, new Color(255, 255, 255, 128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
             spriteBatch.Draw(cursorTexture, new Vector2(mouseClickPosition.X * 64, mouseClickPosition.Y * 64), null, new Color(255,255,255,128), 0, new Vector2(0,0), 4, SpriteEffects.None, 1);
-            spriteBatch.Draw(overlayTexture, new Vector2(0 - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
-            spriteBatch.DrawString(font, "Current Tile: ", new Vector2(325 - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
-            spriteBatch.DrawString(font, "Block ID: " + currentID, new Vector2(325 - offset.X, 60 - offset.Y), new Color(255, 255, 255, 128));
-            spriteBatch.Draw(mapTexture, new Vector2(420 - offset.X, 10 - offset.Y), new Rectangle((currentID % (mapTexture.Height / 16)) * 16, currentID / (mapTexture.Height / 16) * 16, 16, 16), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
+            spriteBatch.Draw(overlayTexture, new Vector2((GraphicsDevice.DisplayMode.Width * 0.11f) - offset.X, 0 - offset.Y), new Color(255, 255, 255, 128));
+            spriteBatch.DrawString(font, "Current Tile: ", new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 30 - offset.Y), new Color(255, 255, 255, 128));
+            spriteBatch.DrawString(font, "Block ID: " + currentID, new Vector2(((GraphicsDevice.DisplayMode.Width * 0.11f) + 325) - offset.X, 60 - offset.Y), new Color(255, 255, 255, 128));
+            spriteBatch.Draw(mapTexture, new Vector2((((GraphicsDevice.DisplayMode.Width * 0.11f)) + 420) - offset.X, 10 - offset.Y), new Rectangle((currentID % (mapTexture.Height / 16)) * 16, currentID / (mapTexture.Height / 16) * 16, 16, 16), new Color(255, 255, 255, 128), 0, new Vector2(0, 0), 4, SpriteEffects.None, 1);
             map.Remove(blockToRemove);
             lastRightClick = new Vector2(-10,-10);
             spriteBatch.End();
